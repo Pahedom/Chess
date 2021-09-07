@@ -106,9 +106,9 @@ public class UI : MonoBehaviour
         whitePromotePopup.SetActive(false);
         blackPromotePopup.SetActive(false);
 
-        Image pieceImage = board.GetSelectedPiece().GetComponentsInChildren<Image>()[1];
+        Image pieceImage = board.selectedPiece.GetComponentsInChildren<Image>()[1];
 
-        if (board.GetSelectedPiece().color == "White")
+        if (board.selectedPiece.color == "White")
         {
             if (newType == "Queen")
             {

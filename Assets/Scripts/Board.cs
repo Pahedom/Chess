@@ -1,8 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class Board : MonoBehaviour
 {
@@ -60,7 +60,11 @@ public class Board : MonoBehaviour
             }
         }
 
-        Rematch();
+        ArrangePieces(pieces);
+
+        turnColor = "White";
+
+        OnSwitchTurns.Invoke();
     }
 
     void ArrangePieces(Piece[] thisPieces)
@@ -722,65 +726,7 @@ public class Board : MonoBehaviour
 
     public void Rematch()
     {
-        OnRematch.Invoke();
-
-        string[] checkTypes = { "Queen", "Knight", "Rook", "Bishop" };
-        int maxCount;
-        List<Piece> piecesToCheck = new List<Piece>();
-
-        for (int i = 0; i < 4; i++)
-        {
-            piecesToCheck.Clear();
-
-            for (int j = 0; j < 32; j++)
-            {
-                if (pieces[j].type == checkTypes[i])
-                {
-                    piecesToCheck.Add(pieces[j]);
-                }
-            }
-
-            maxCount = 4;
-
-            if (i == 0)
-            {
-                maxCount = 2;
-            }
-
-            for (int j = maxCount; j < piecesToCheck.Count; j++)
-            {
-                piecesToCheck[j].type = "Pawn";
-            }
-        }
-
-        for (int i = 0; i < 32; i++)
-        {
-            Debug.Log(pieces[i].type);
-        }
-
-        // Remove pieces from the taken pieces spot
-        RectTransform pieceTransform;
-        Vector2 originalSize = new Vector2(103, 103);
-        for (int i = 0; i < 32; i++)
-        {
-            pieceTransform = pieces[i].GetComponent<RectTransform>();
-            pieceTransform.sizeDelta = originalSize;
-
-            pieces[i].transform.SetParent(piecesSpot.transform);
-        }
-
-        ArrangePieces(pieces);
-
-        whiteKingRookMove = false;
-        whiteQueenRookMove = false;
-        blackKingRookMove = false;
-        blackQueenRookMove = false;
-        whiteKingMove = false;
-        blackKingMove = false;
-
-        turnColor = "White";
-
-        OnSwitchTurns.Invoke();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void Resign()
@@ -795,10 +741,5 @@ public class Board : MonoBehaviour
         selectedPiece.type = newType;
 
         MovePiece(selectedPiece, newPosition, true);
-    }
-
-    public Piece GetSelectedPiece()
-    {
-        return selectedPiece;
     }
 }

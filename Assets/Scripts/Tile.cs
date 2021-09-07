@@ -15,11 +15,6 @@ public class Tile : MonoBehaviour
     public GameObject availableTileSprite;
     public GameObject availableTakeSprite;
 
-    void Start()
-    {
-        
-    }
-
     public void SelectTile()
     {
         if (piece != null)
